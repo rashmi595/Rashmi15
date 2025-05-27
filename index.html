@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bubble Sort Visualizer</title>
+<style>
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background: #f6f9fc;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  color: #2c3e50;
+}
+
+input {
+  padding: 10px;
+  width: 300px;
+  font-size: 16px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#visuals {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+#array-container {
+  flex: 1;
+  background: white;
+  border: 1px solid #ccc;
+  height: 300px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 10px;
+}
+
+.bar {
+  width: 30px;
+  margin: 2px;
+  background-color: #27ae60;
+  transition: height 0.3s ease;
+}
+
+#steps {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #ccc;
+  height: 300px;
+  overflow-y: auto;
+  text-align: left;
+  padding: 10px;
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+
+#output {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#code-box {
+  margin-top: 30px;
+  background: #2d2d2d;
+  color: #00ff88;
+  text-align: left;
+  padding: 20px;
+  border-radius: 8px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+iframe {
+  margin-top: 30px;
+  width: 100%;
+  max-width: 720px;
+  height: 400px;
+  border: none;
+}
+</style>
+</head>
+<body>
+
+<h1>Bubble Sort Visualizer</h1>
+
+<input id="inputArray" placeholder="Enter numbers (e.g. 5,3,8,1)" />
+<button onclick="runSort()">Run Bubble Sort</button>
+
+<div id="visuals">
+<div id="array-container"></div>
+<div id="steps"><strong>Step-by-step explanation appears here...</strong></div>
+</div>
+
+<div id="output"></div>
+
+<div id="code-box">
+<strong>Bubble Sort Code:</strong><br><br>
+function bubbleSort(arr) {<br>
+&nbsp;&nbsp;for (let i = 0; i &lt; arr.length - 1; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for (let j = 0; j &lt; arr.length - i - 1; j++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[j] &gt; arr[j + 1]) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<h2>Watch: How Bubble Sort Works</h2>
+<iframe src="https://www.youtube.com/embed/GVDcxr4FTM4Based on our previous interactions I want you to tell me what you know about me? That I might not realise about my self. Be as honest and direct as possible.
+
+Don't hold back if you noticed contradictions, patterns or tendencies that I might be blind to. I want to hear them clearly
+
+" allowfullscreen></iframe>
+
+<script>
+function runSort() {
+  const input = document.getElementById('inputArray').value;
+  let arr = input.split(',').map(Number);
+  if (arr.some(isNaN)) {
+    alert("Please enter valid numbers separated by commas.");
+    return;
+  }
+
+  const stepsBox = document.getElementById('steps');
+  const arrayBox = document.getElementById('array-container');
+  const outputBox = document.getElementById('output');
+
+  stepsBox.innerText = '';
+  arrayBox.innerHTML = '';
+  outputBox.innerText = '';
+
+  arr.forEach(val => {
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.height = `${val * 3}px`;
+    arrayBox.appendChild(bar);
+  });
+
+  bubbleSortVisual(arr);
+}
+
+async function bubbleSortVisual(arr) {
+  const bars = document.getElementsByClassName('bar');
+  const steps = document.getElementById('steps');
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = 0; j < arr.length - i - 1; j+m+) {
+      bars[j].style.backgroundColor = 'red';
+      bars[j + 1].style.backgroundColor = 'red';
+
+      steps.innerText += `Comparing ${arr[j]} and ${arr[j + 1]}\n`;
+      await sleep(500);
+
+      if (arr[j] > arr[j + 1]) {
+        steps.innerText += `Swapping ${arr[j]} and ${arr[j + 1]}\n`;
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+
+        bars[j].style.height = `${arr[j] * 3}px`;
+        bars[j + 1].style.height = `${arr[j + 1] * 3}px`;
+      } else {
+        steps.innerText += `No swap needed\n`;
+      }
+
+      bars[j].style.backgroundColor = '#27ae60';
+      bars[j + 1].style.backgroundColor = '#27ae60';
+    }
+  }
+
+  steps.innerText += `\nFinal Sorted Array: ${arr.join(', ')}`;
+  document.getElementById('output').innerText = 'Sorted Output: ' + arr.join(', ');
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+</script>
+
+</body>
+</html>
